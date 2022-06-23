@@ -10,13 +10,11 @@ jobs:
 
     steps:
     - name: output value 1
-      id: first
       shell: bash
       run: |
         echo "Hello World"
 
     - name: output value 2
-      id: first
       if: github.event_name == 'pull_request'
       shell: bash
       run: |
@@ -30,7 +28,6 @@ jobs:
 
     steps:
     - name: output value
-      id: first
       shell: bash
       run: |
         echo "Hello World"
