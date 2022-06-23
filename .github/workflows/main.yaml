@@ -33,7 +33,7 @@ jobs:
 
   third-job:
     name: 'third job'
-    needs: second-job
+    needs: first-job
 
     runs-on: ubuntu-latest
 
