@@ -9,22 +9,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Say Hello World 1
+    - name: set output value
+      id: first
       shell: bash
       run: |
-        echo "Hello World from step 1"
-        echo "STEP_VALUE_1='THIS IS SET BY STEP 1'" >> $GITHUB_ENV
-    
-    - name: Say Hello World 2
-      shell: pwsh
-      run: |
-        echo "Hello World from step 2"
-        echo "VALUE: $env:STEP_VALUE_1"
-        echo "VALUE: ${{ env.STEP_VALUE_1 }}"
-    
-    - name: Say Hello World 3
+        first_value="This is the first output value"
+
+        echo "::set-output name=my_first_value::$first_value"
+
+    - name: get output value
       shell: bash
       run: |
-        echo "Hello World from step 2"
-        echo "VALUE: $STEP_VALUE_1"
-        echo "VALUE: ${{ env.STEP_VALUE_1 }}"
+        echo ${{ steps.first.outputs.my_first_value }}
