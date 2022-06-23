@@ -1,27 +1,36 @@
 name: 'My first github action'
 
-on: push
+on: [ 'push', 'pull_request' ]
 
 jobs:
   first-job:
     name: 'first job'
 
-    strategy:
-      matrix:
-        os: [ 'windows-latest', 'macos-latest', 'ubuntu-latest' ]
-        nodejs: [ '14.x',  '16.x' ]
-
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
 
     steps:
-    - name: Setup node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.nodejs }}
-
-    - name: output value from ${{ matrix.os }}
+    - name: output value 1
       id: first
       shell: bash
       run: |
-        echo "OS: ${{ matrix.os }}"
-        echo "node.js: ${{ matrix.nodejs }}"
+        echo "Hello World"
+
+    - name: output value 2
+      id: first
+      if: github.event_name == 'pull_request'
+      shell: bash
+      run: |
+        echo "Hello World"
+
+  second-job:
+    name: 'second job'
+    if: github.event_name == 'pull_request'
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: output value
+      id: first
+      shell: bash
+      run: |
+        echo "Hello World"
