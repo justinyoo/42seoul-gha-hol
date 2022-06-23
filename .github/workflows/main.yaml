@@ -6,20 +6,16 @@ jobs:
   first-job:
     name: 'first job'
 
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ 'windows-latest', 'macos-latest', 'ubuntu-latest' ]
+
+    runs-on: ${{ matrix.os }}
 
     steps:
-    - name: mask value
+    - name: output value from ${{ matrix.os }}
       id: first
       shell: bash
       run: |
-        first_value="This is the first output value"
-
-        echo "::add-mask::$first_value"
-        echo "::set-output name=my_first_value::$first_value"
-
-    - name: get output value
-      shell: bash
-      run: |
-        echo ${{ steps.first.outputs.my_first_value }}
-        echo "SECRET: ${{ secrets.HELLO }}"
+        echo "OS: ${{ matrix.os }}"
+    
