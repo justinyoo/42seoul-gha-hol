@@ -15,14 +15,12 @@ jobs:
         echo "Hello World"
 
     - name: output value 2
-      if: github.event_name == 'pull_request'
       shell: bash
       run: |
         echo "Hello World"
 
   second-job:
     name: 'second job'
-    if: github.event_name == 'pull_request'
 
     runs-on: ubuntu-latest
 
