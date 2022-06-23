@@ -9,13 +9,19 @@ jobs:
     strategy:
       matrix:
         os: [ 'windows-latest', 'macos-latest', 'ubuntu-latest' ]
+        nodejs: [ '14.x',  '16.x' ]
 
     runs-on: ${{ matrix.os }}
 
     steps:
+    - name: Setup node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.nodejs }}
+
     - name: output value from ${{ matrix.os }}
       id: first
       shell: bash
       run: |
         echo "OS: ${{ matrix.os }}"
-    
+        echo "node.js: ${{ matrix.nodejs }}"
