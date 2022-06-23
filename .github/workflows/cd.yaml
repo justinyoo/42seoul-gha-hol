@@ -1,0 +1,40 @@
+name: 'My first github actions module'
+
+on:
+  workflow_call:
+    inputs:
+      artifact_name:
+        type: string
+        required: false
+        default: apiapp
+
+jobs:
+  release:
+    name: Release Apps
+    needs: release-dev
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Download FunctionApp artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: apiapp
+        path: artifacts/api
+
+    - name: Zip FunctionApp artifact
+      shell: bash
+      run: |
+        pushd artifacts/api
+        zip -qq -r ${{ inputs.artifact_name }}.zip .
+        popd
+
+        mv artifacts/api/${{ inputs.artifact_name }}.zip artifacts/${{ inputs.artifact_name }}.zip
+
+    - name: Release FunctionApp artifact to GitHub
+      uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        prerelease: false
+        files: |
+          artifacts/${{ inputs.artifact_name }}.zip
